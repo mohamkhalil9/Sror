@@ -1,52 +1,32 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const client = new Discord.Client();
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
 
 
+const developers = ["521600685641302026"]
+const adminprefix = "^";
+client.on('message', message => {
+    var argresult = message.content.split(` `).slice(1).join(' ');
+      if (!developers.includes(message.author.id)) return;
+      
+  if (message.content.startsWith(adminprefix + 'sp')) {
+    client.user.setGame(argresult, {type:'PLAYING'});
+      message.channel.send(`**Status You   ${argresult}**`)
+  } else 
+  if (message.content.startsWith(adminprefix + 'sw')) {
+  client.user.setActivity(argresult, {type:'WATCHING'});
+      message.channel.send(`**Status You   ${argresult}**`)
+  } else 
+  if (message.content.startsWith(adminprefix + 'sl')) {
+  client.user.setActivity(argresult , {type:'LISTENING'});
+      message.channel.send(`**Status You  ${argresult}**`)
+  } else 
+  if (message.content.startsWith(adminprefix + 'st')) {
+    client.user.setGame(argresult, "https://www.twitch.tv/M3roof");
+      message.channel.send(`**Status You ${argresult} **`)
+}
+});
 
-
-
-client.on('guildMemberAdd', member => {
-    let channel = member.guild.channels.find('name', 'welcome');
-    let memberavatar = member.user.avatarURL
-      if (!channel) return;
-    let embed = new Discord.RichEmbed()
-        .setColor('RANDOM')
-        .setThumbnail(memberavatar)
-        .addField(':running_shirt_with_sash: | name :  ',`${member}`)
-        .addField(':loudspeaker: | اطلق من دخل شخص جديد' , `اهلاً بك في السيرفر, ${member}`)
-        .addField(':		id: | user :', "**[" + `${member.id}` + "]**" )
-                .addField('➡| انت العضو رقم',`${member.guild.memberCount}`)
-               
-                  .addField("Name:",`<@` + `${member.id}` + `>`, true)
-                     
-                                     .addField(' الـسيرفر', `${member.guild.name}`,true)
-                                       
-     .setFooter(`${member.guild.name}`)
-        .setTimestamp()
-   
-      channel.sendEmbed(embed);
-    });
-    
-    client.on('guildMemberRemove', member => {
-        var embed = new Discord.RichEmbed()
-        .setAuthor(member.user.username, member.user.avatarURL)
-        .setThumbnail(member.user.avatarURL)
-        .setTitle(`لقد خرج صديق :( :raised_hand::skin-tone-1: :pensive:`)
-        .setDescription(`مع السلامة يا غالي :raised_hand::skin-tone-1: :pensive: `)
-        .addField(':bust_in_silhouette:   تبقي',`**[ ${member.guild.memberCount} ]**`,true)
-        .setColor('RED')
-        .setFooter(`====شكرا للاستمتاع====`, ' https://cdn.discordapp.com/attachments/397818254439219217/399292026782351381/shy.png')
-    
-    var channel =member.guild.channels.find('name', 'welcome')
-    if (!channel) return;
-    channel.send({embed : embed});
-    })
-	
-	
-	
-	
-	
-	
-	
-	
 client.login(process.env.BOT_TOKEN);// لا تغير فيها شيء
